@@ -1,0 +1,19 @@
+Download Wordpress 
+------------------
+curl -O https://wordpress.org/latest.tar.gz
+tar -xvzf latest.tar.gz
+
+Create script 
+-------------
+touch build.sh
+chmod +x build.sh
+
+Create RDS Instance
+-------------------
+https://console.aws.amazon.com/rds
+Choose "instances" from left (image).
+Click "Launch DB instance". Next.
+Choose MySQL. Next.
+Choose use case "Production - MySQL". 
+Enter settings: DB instance identifier, username, password. Next.
+Under "Public accessibility" choose "no".
