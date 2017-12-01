@@ -1,12 +1,20 @@
-Download Wordpress 
+Download Wordpress
 ------------------
 curl -O https://wordpress.org/latest.tar.gz
 tar -xvzf latest.tar.gz
 
-Create script 
--------------
-touch build.sh
+Create scripts
+--------------
 chmod +x build.sh
+chmod +x download-wordpress.sh
+
+Create assets
+-------------
+wp-config.php
+.ebextensions
+  cache.config
+  deflate.config 
+
 
 Create RDS Instance
 -------------------
@@ -14,6 +22,15 @@ https://console.aws.amazon.com/rds
 Choose "instances" from left (image).
 Click "Launch DB instance". Next.
 Choose MySQL. Next.
-Choose use case "Production - MySQL". 
+Choose use case "Production - MySQL".
 Enter settings: DB instance identifier, username, password. Next.
 Under "Public accessibility" choose "no".
+
+Update Security Group
+---------------------
+Go to https://console.aws.amazon.com/ec2.
+Click on "Security groups" (image)
+Choose Group Name rds-launch-wizard
+Click Inbound
+Click Edit -> Add Rule
+Choose MySQL/Aurora, TCP, 3306, rds-launch-wizard
