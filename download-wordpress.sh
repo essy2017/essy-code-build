@@ -1,7 +1,10 @@
 #!/bin/bash
-
 cd assets
-curl -O https://wordpress.org/latest.tar.gz
-tar -xvzf latest.tar.gz
-chmod 755 latest.tar.gz
-rm latest.tar.gz
+
+# If version specified use that, else latest.
+file=latest.tar.gz
+if [ -n "$1" ]; then
+  file=wordpress-$1.tar.gz
+fi
+
+curl https://wordpress.org/$file | tar -xvz
