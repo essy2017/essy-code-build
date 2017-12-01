@@ -3,3 +3,9 @@ assets/latest.tar.gz
 assets/wordpress/
 build
 artifact.zip
+.sass-cache
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

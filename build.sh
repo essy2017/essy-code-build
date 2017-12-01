@@ -35,6 +35,16 @@ rm -rf build/wp-content/themes/*
 cp -r $wordpress_local/wp-content/plugins/* build/wp-content/plugins
 cp -r $wordpress_local/wp-content/themes/* build/wp-content/themes
 
+#
+# Clean up theme.
+#
+theme_dir=build/wp-content/themes/essycode
+rm -rf $theme_dir/.git
+rm $theme_dir/.gitignore
+rm -rf $theme_dir/.sass-cache
+rm -rf $theme_dir/scss
+rm -rf $theme_dir/scripts
+
 # Copy elastic beanstalk extensions and remove sample configurations.
 echo Installing .ebextensions...
 cp -r assets/.ebextensions build

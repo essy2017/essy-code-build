@@ -22,6 +22,9 @@
 define('DBI_AWS_ACCESS_KEY_ID', $_SERVER['AWS_ACCESS_KEY_ID']);
 define('DBI_AWS_SECRET_ACCESS_KEY', $_SERVER['AWS_SECRET_ACCESS_KEY']);
 
+// URLs.
+define('WP_HOME', $_SERVER['WP_HOME']);
+define('WP_SITEURL', $_SERVER['WP_SITEURL']);
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
