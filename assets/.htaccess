@@ -1,0 +1,40 @@
+# Protect this file.
+<Files .htaccess>
+  order allow,deny
+  deny from all
+</Files>
+
+# Prevent wp-config access.
+<Files wp-config.php>
+  order allow,deny
+  deny from all
+</Files>
+
+# Prevent scripts in uploads.
+<Files wp-content/uploads/*.php>
+  deny from all
+</Files>
+
+# Block include-only files.
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteBase /
+  RewriteRule ^wp-admin/includes/ - [F,L]
+  RewriteRule !^wp-includes/ - [S=3]
+  RewriteRule ^wp-includes/[^/]+\.php$ - [F,L]
+  RewriteRule ^wp-includes/js/tinymce/langs/.+\.php - [F,L]
+  RewriteRule ^wp_includes/theme-compat/ - [F,L]
+</IfModule>
+
+# Prevent directory listings.
+Options All -Indexes
+
+# Wordpress
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.php$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.php [L]
+</IfModule>

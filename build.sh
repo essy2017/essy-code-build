@@ -13,9 +13,16 @@ mkdir -p build
 
 echo Copying Wordpress...
 cp -r $wordpress_local/* build
-if [ -f $wordpress_local/.htaccess ]; then
-  cp $wordpress_local/.htaccess build/.htaccess
-fi
+
+echo Generating .htaccess...
+cp assets/.htaccess build/.htaccess
+#if [ -f $wordpress_local/.htaccess ]; then
+#  cat $wordpress_local/.htaccess >> build/.htaccess
+#fi
+
+#if [ -f $wordpress_local/.htaccess ]; then
+#  cp $wordpress_local/.htaccess build/.htaccess
+#fi
 
 echo Replacing wp-config.php...
 cp assets/wp-config.php build/wp-config.php
