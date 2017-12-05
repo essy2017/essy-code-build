@@ -11,25 +11,10 @@ echo Creating build directory...
 rm -rf build
 mkdir -p build
 
-echo Copying Wordpress...
+#echo Copying Wordpress...
 cp -r $wordpress_local/* build
 
-echo Generating .htaccess...
-cp assets/.htaccess build/.htaccess
-#if [ -f $wordpress_local/.htaccess ]; then
-#  cat $wordpress_local/.htaccess >> build/.htaccess
-#fi
-
-#if [ -f $wordpress_local/.htaccess ]; then
-#  cp $wordpress_local/.htaccess build/.htaccess
-#fi
-
-echo Replacing wp-config.php...
-cp assets/wp-config.php build/wp-config.php
-
-#
 # Clean up theme.
-#
 theme_dir=build/wp-content/themes/essycode
 rm -rf $theme_dir/.git
 rm $theme_dir/.gitignore
@@ -37,8 +22,23 @@ rm -rf $theme_dir/.sass-cache
 rm -rf $theme_dir/scss
 rm -rf $theme_dir/scripts
 
+# Copy visible and hidden server files.
+echo Copying server files...
+
+for filename in assets/server-files/*; do
+  file=$(basename $filename)
+  cp $filename build/$file
+done
+
+for filename in assets/server-files/.*; do
+  if [ -f $filename ]; then
+    file=$(basename $filename)
+    cp $filename build/$file
+  fi
+done
+
 # Copy elastic beanstalk extensions and remove sample configurations.
-echo Installing .ebextensions...
+echo Copying .ebextensions...
 cp -r assets/.ebextensions build
 rm -f build/.ebextensions/env-sample.config
 
