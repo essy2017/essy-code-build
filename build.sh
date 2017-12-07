@@ -44,5 +44,6 @@ rm -f build/.ebextensions/env-sample.config
 
 # Create artifact.
 echo Creating artifact...
+rm -f artifact.zip
 cd build
 zip -rq ../artifact.zip .
