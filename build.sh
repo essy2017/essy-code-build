@@ -1,26 +1,39 @@
 #!/bin/bash
 
-# Set this to your local Wordpress development installation.
-wordpress_local=/Applications/XAMPP/htdocs/essycode
-
 # Exit on error.
 set -e
+
+# Make sure we have a local WordPress directory.
+if [ ! -d "assets/wordpress" ]; then
+  echo ERROR: Could not find assets/wordpress directory.
+  exit -1
+fi
+
+# Theme source directory.
+theme_src=/Applications/XAMPP/htdocs/essycode/wp-content/themes/essycode
 
 # Create build directory.
 echo Creating build directory...
 rm -rf build
 mkdir -p build
 
-echo Copying Wordpress...
-cp -r $wordpress_local/* build
+# Copy core WordPress files.
+echo Copying WordPress...
+cp -r assets/wordpress/* build
 
-# Clean up theme.
-theme_dir=build/wp-content/themes/essycode
-rm -rf $theme_dir/.git
-rm $theme_dir/.gitignore
-rm -rf $theme_dir/.sass-cache
-rm -rf $theme_dir/scss
-rm -rf $theme_dir/scripts
+# Copy plugins.
+echo Copying plugins...
+cp -r assets/plugins/* build/wp-content/plugins
+
+# Install theme and clean up.
+echo Intalling theme...
+cp -r $theme_src build/wp-content/themes
+theme_target=build/wp-content/themes/essycode
+rm -rf $theme_target/.git
+rm $theme_target/.gitignore
+rm -rf $theme_target/.sass-cache
+rm -rf $theme_target/scss
+rm -rf $theme_target/scripts
 
 # Copy visible and hidden server files.
 echo Copying server files...
