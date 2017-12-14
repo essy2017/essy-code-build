@@ -34,6 +34,7 @@ rm $theme_target/.gitignore
 rm -rf $theme_target/.sass-cache
 rm -rf $theme_target/scss
 rm -rf $theme_target/scripts
+rm -rf $theme_target/js/distribution-viewer
 
 # Copy visible and hidden server files.
 echo Copying server files...
