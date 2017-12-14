@@ -1,5 +1,9 @@
 #!/bin/bash
 
+########
+# SETUP.
+########
+
 # Exit on error.
 set -e
 
@@ -12,31 +16,60 @@ fi
 # Theme source directory.
 theme_src=/Applications/XAMPP/htdocs/essycode/wp-content/themes/essycode
 
-# Create build directory.
+
+#########################
+# CREATE BUILD DIRECTORY.
+#########################
 echo Creating build directory...
 rm -rf build
 mkdir -p build
 
-# Copy core WordPress files.
+
+##############################
+# COPY WORDPRESS INSTALLATION.
+##############################
 echo Copying WordPress...
 cp -r assets/wordpress/* build
 
-# Copy plugins.
+
+###############
+# COPY PLUGINS.
+###############
 echo Copying plugins...
 cp -r assets/plugins/* build/wp-content/plugins
 
-# Install theme and clean up.
-echo Intalling theme...
-cp -r $theme_src build/wp-content/themes
-theme_target=build/wp-content/themes/essycode
-rm -rf $theme_target/.git
-rm $theme_target/.gitignore
-rm -rf $theme_target/.sass-cache
-rm -rf $theme_target/scss
-rm -rf $theme_target/scripts
-rm -rf $theme_target/js/distribution-viewer
 
-# Copy visible and hidden server files.
+################
+# INSTALL THEME.
+################
+echo Intalling theme...
+
+theme_target=build/wp-content/themes/essycode 
+mkdir $theme_target
+
+# Copy PHP files.
+for filename in $theme_src/*.php; do
+  file=$(basename $filename)
+  cp $filename $theme_target/$file
+done
+
+# Copy includes.
+cp -r $theme_src/includes $theme_target/includes
+
+# Copy styles.
+cp $theme_src/style.css $theme_target/style.css 
+
+# Copy Javascript.
+mkdir $theme_target/js
+for filename in $theme_src/js/*.min.js; do
+  file=$(basename $filename)
+  cp $filename $theme_target/js/$file
+done
+
+
+#######################################
+# COPY VISIBLE AND HIDDEN SERVER FILES.
+#######################################
 echo Copying server files...
 
 for filename in assets/server-files/*; do
@@ -51,12 +84,18 @@ for filename in assets/server-files/.*; do
   fi
 done
 
-# Copy elastic beanstalk extensions and remove sample configurations.
+
+####################################
+# COPY ELASTIC BEANSTALK EXTENSIONS.
+####################################
 echo Copying .ebextensions...
 cp -r assets/.ebextensions build
 rm -f build/.ebextensions/env-sample.config
 
-# Create artifact.
+
+##################
+# CREATE ARTIFACT.
+##################
 echo Creating artifact...
 rm -f artifact.zip
 cd build
