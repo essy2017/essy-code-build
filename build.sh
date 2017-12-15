@@ -4,12 +4,37 @@
 # SETUP.
 ########
 
+BLUE='\033[38;5;33m'
+GREEN='\033[0;32m'
+GRAY='\033[38;5;240m'
+ORANGE='\033[38;5;214m'
+OUTPUT='\033[38;5;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+# Prints status message.
+print_status() {
+  msg=$1
+  echo -e "${OUTPUT}$msg${GRAY}...${NC}\c"
+}
+
+# Prints success message.
+print_success() {
+  echo -e "${GREEN}complete${NC}"
+}
+
+# Prints error message.
+print_error() {
+  msg=$1
+  echo -e "${RED}ERROR: $msg.${NC}"
+}
+
 # Exit on error.
 set -e
 
 # Make sure we have a local WordPress directory.
 if [ ! -d "assets/wordpress" ]; then
-  echo ERROR: Could not find assets/wordpress directory.
+  print_error "Could not find assets/wordpress directory."
   exit -1
 fi
 
@@ -20,29 +45,31 @@ theme_src=/Applications/XAMPP/htdocs/essycode/wp-content/themes/essycode
 #########################
 # CREATE BUILD DIRECTORY.
 #########################
-echo Creating build directory...
+print_status "Creating build directory"
 rm -rf build
 mkdir -p build
+print_success
 
 
 ##############################
 # COPY WORDPRESS INSTALLATION.
 ##############################
-echo Copying WordPress...
+print_status "Copying WordPress"
 cp -r assets/wordpress/* build
+print_success
 
 
 ###############
 # COPY PLUGINS.
 ###############
-echo Copying plugins...
+print_status "Copying plugins"
 cp -r assets/plugins/* build/wp-content/plugins
-
+print_success
 
 ################
 # INSTALL THEME.
 ################
-echo Intalling theme...
+print_status "Installing theme"
 
 theme_target=build/wp-content/themes/essycode 
 mkdir $theme_target
@@ -66,11 +93,13 @@ for filename in $theme_src/js/*.min.js; do
   cp $filename $theme_target/js/$file
 done
 
+print_success
+
 
 #######################################
 # COPY VISIBLE AND HIDDEN SERVER FILES.
 #######################################
-echo Copying server files...
+print_status "Copying server files"
 
 for filename in assets/server-files/*; do
   file=$(basename $filename)
@@ -84,19 +113,22 @@ for filename in assets/server-files/.*; do
   fi
 done
 
+print_success
+
 
 ####################################
 # COPY ELASTIC BEANSTALK EXTENSIONS.
 ####################################
-echo Copying .ebextensions...
+print_status "Copying .ebextensions"
 cp -r assets/.ebextensions build
 rm -f build/.ebextensions/env-sample.config
-
+print_success
 
 ##################
 # CREATE ARTIFACT.
 ##################
-echo Creating artifact...
+print_status "Creating artifact"
 rm -f artifact.zip
 cd build
 zip -rq ../artifact.zip .
+print_success
