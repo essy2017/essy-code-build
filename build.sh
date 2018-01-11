@@ -38,8 +38,8 @@ if [ ! -d "assets/wordpress" ]; then
   exit -1
 fi
 
-# Theme source directory.
-theme_src=/Applications/XAMPP/htdocs/essycode/wp-content/themes/essycode
+# Load theme source directory.
+source config.txt
 
 
 #########################
@@ -71,7 +71,7 @@ print_success
 ################
 print_status "Installing theme"
 
-theme_target=build/wp-content/themes/essycode 
+theme_target=build/wp-content/themes/essycode
 mkdir $theme_target
 
 # Copy PHP files.
@@ -84,7 +84,7 @@ done
 cp -r $theme_src/includes $theme_target/includes
 
 # Copy styles.
-cp $theme_src/style.css $theme_target/style.css 
+cp $theme_src/style.css $theme_target/style.css
 
 # Copy Javascript.
 mkdir $theme_target/js

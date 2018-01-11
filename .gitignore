@@ -1,6 +1,7 @@
 assets/.ebextensions/env.config
 assets/latest.tar.gz
 assets/wordpress/
+config.txt
 build
 artifact.zip
 .sass-cache
