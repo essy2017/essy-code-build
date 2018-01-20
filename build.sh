@@ -83,8 +83,11 @@ done
 # Copy includes.
 cp -r $theme_src/includes $theme_target/includes
 
-# Copy styles.
+# Copy core style.
 cp $theme_src/style.css $theme_target/style.css
+
+# Copy other styles.
+cp -r $theme_src/css $theme_target/css
 
 # Copy Javascript.
 mkdir $theme_target/js
