@@ -83,6 +83,9 @@ done
 # Copy includes.
 cp -r $theme_src/includes $theme_target/includes
 
+# Copy images.
+cp -r $theme_src/images $theme_target/images
+
 # Copy core style.
 cp $theme_src/style.css $theme_target/style.css
 
